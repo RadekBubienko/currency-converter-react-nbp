@@ -18,31 +18,35 @@ import { useApiData } from "../useApiData";
 const Form = () => {
    const [result, setResult] = useState();
    const ratesData = useApiData();
-
+   
    const calculateResult = (currency, amount) => {
-      const rate = ratesData.rates.find(rate => rate.currency === currency);
       
-          
       setResult({
          sourceAmount: +amount,
-         targetAmount: amount * rate.mid,
-         rate,
+         targetAmount: amount / mid,
          currency,
+         code,
+         mid,         
       });
+      
    };
 
-   const currenciesDate = ratesData.effectiveDate;
-   const formattedDate = currenciesDate && `${currenciesDate.slice(8)}-${currenciesDate.slice(5,7)}-${currenciesDate.slice(0,4)}`;
+   const currenciesDate = ratesData.date;
+   const formattedDate = currenciesDate && `${currenciesDate.slice(8)}-${currenciesDate.slice(5, 7)}-${currenciesDate.slice(0, 4)}`;
 
    const [amount, setAmount] = useState("");
-   
+   const [mid, setMid] = useState("");
+   const [code, setCode] = useState("");
+   const [currency, setCurrency] = useState("");
    const onInputChange = ({ target }) => setAmount(target.value);
-   const [currency, setCurrency] = useState("euro");
-   const onSelectChange = ({ target }) => setCurrency(target.value);
+   const onSelectChange = ({ target }) => 
+      setMid(target.value) && 
+      setCode(target.value) && 
+      setCurrency(target.value);
 
    const onFormSubmit = (event) => {
       event.preventDefault();
-      calculateResult(currency, amount);
+      calculateResult(mid, amount, code, currency);
    };
    return (
       <StyledForm
@@ -86,37 +90,37 @@ const Form = () => {
                               />
 
                            </Label>
-                        <>
-                           <Label>
-                              <LabelText>
-                                 Przeliczam na*:
-                              </LabelText>
-                           
-                              <Select
-                                 value={currency.mid}
-                                 type="select"
-                                 required
-                                 onChange={onSelectChange}
-                              >
-                                  {Object.keys(currency).map(((currency) => (
-                                    <option
-                                       key={currency}
-                                       value={currency.mid}
-                                    >
-                                       {currency}
-                                    </option>
-                                 )))};
+                           <>
+                              <Label>
+                                 <LabelText>
+                                    Przeliczam na*:
+                                 </LabelText>
 
-                              </Select>
-                              
-                           </Label>
+                                 <Select
+                                    value={ratesData.rates.mid}
+                                    type="select"
+                                    required
+                                    onChange={onSelectChange}
+                                 >
+                                    {ratesData.rates.map(({ currency, mid, code }) => (
+                                       <option
+                                          key={code}
+                                          value={mid}
+                                       >
+                                          {code + " - " + currency}
+                                       </option>
+                                    ))};
+
+                                 </Select>
+
+                              </Label>
                            </>
                         </Fieldset>
 
                         <p><Button>Przelicz</Button></p>
 
-                        <Info>Kursy walut pobierane są z Europejskiego Banku Centralnego.<br />
-                           Z dnia <strong>{formattedDate}</strong>
+                        <Info>Kursy walut pobierane są z Narodowego Banku Polskiego.<br />
+                           Z dnia <strong>{formattedDate}</strong> - tabela nr {ratesData.no}
                         </Info>
 
                         <Result result={result} />
