@@ -11,14 +11,14 @@ export const useApiData = () => {
       try {
         const response = await axios.get("https://api.nbp.pl/api/exchangerates/tables/a/?format=json");
 
-        const { table, rates, effectiveDate, no } = response.data;
+        const allArray  = response.data;
 
         setRatesData({
           state: "succes",
-          table,
-          rates,
-          effectiveDate,
-          no
+          rates: allArray[0].rates,
+          date: allArray[0].effectiveDate,
+          table: allArray[0].table,
+          no: allArray[0].no,
         });
       } catch (error) {
         setRatesData({
