@@ -21,32 +21,30 @@ const Form = () => {
 
    
 
-   const calculateResult = (mid, amount) => {
-      const rates = ratesData.rates;
-      const rate = rates.find(rate => rate.mid === mid);
+   const calculateResult = (mid, amount, code) => {
+      //const rates = ratesData.rates;
+      //const rate = rates.find(rate => rate.mid === mid);
+      //const code = rates.code;
       
       setResult({
          sourceAmount: +amount,
-         targetAmount: amount / rate,
+         targetAmount: amount / mid,
          mid,
-         
-             
+         code,
       }); 
-        
    };
-  
-
    const currenciesDate = ratesData.date;
    const formattedDate = currenciesDate && `${currenciesDate.slice(8)}-${currenciesDate.slice(5, 7)}-${currenciesDate.slice(0, 4)}`;
 
    const [amount, setAmount] = useState("");
-   const [mid, setMid] = useState("");
+   const [mid, setMid] = useState();
+   const [code, setCode] = useState("EUR");
    const onInputChange = ({ target }) => setAmount(target.value);
-   const onSelectChange = ({ target }) => setMid(target.value);
+   const onSelectChange = ({ target }) => (setMid(target.value)) && (setCode(target.key));
 
    const onFormSubmit = (event) => {
       event.preventDefault();
-      calculateResult(amount, mid);
+      calculateResult(mid, amount, code);
    };
    return (
       <StyledForm
@@ -102,12 +100,12 @@ const Form = () => {
                                     onChange={onSelectChange}
                                     required
                                  >
-                                    {ratesData.rates.map(({ currency, mid, code } ) => (
+                                    {ratesData.rates.map(({ currency, code, mid } ) => (
                                        <option
                                           key={code}
                                           value={mid}
                                        >
-                                          {currency}
+                                          {currency + " - " + code}
                                        </option>
                                     ))};
 
