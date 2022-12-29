@@ -19,19 +19,17 @@ const Form = () => {
    const [result, setResult] = useState();
    const ratesData = useApiData();
 
-   
-
    const calculateResult = (mid, amount, code) => {
       //const rates = ratesData.rates;
       //const rate = rates.find(rate => rate.mid === mid);
       //const code = rates.code;
-      
+
       setResult({
          sourceAmount: +amount,
          targetAmount: amount / mid,
          mid,
          code,
-      }); 
+      });
    };
    const currenciesDate = ratesData.date;
    const formattedDate = currenciesDate && `${currenciesDate.slice(8)}-${currenciesDate.slice(5, 7)}-${currenciesDate.slice(0, 4)}`;
@@ -88,31 +86,31 @@ const Form = () => {
                               />
 
                            </Label>
-                           
-                              <Label>
-                                 <LabelText>
-                                    Przeliczam na*:
-                                 </LabelText>
 
-                                 <Select
-                                    value={mid}
-                                    type="select"
-                                    onChange={onSelectChange}
-                                    required
-                                 >
-                                    {ratesData.rates.map(({ currency, code, mid } ) => (
-                                       <option
-                                          key={code}
-                                          value={mid}
-                                       >
-                                          {currency + " - " + code}
-                                       </option>
-                                    ))};
+                           <Label>
+                              <LabelText>
+                                 Przeliczam na*:
+                              </LabelText>
 
-                                 </Select>
+                              <Select
+                                 value={mid}
+                                 type="select"
+                                 onChange={onSelectChange}
+                                 required
+                              >
+                                 {ratesData.rates.map(({ currency, code, mid }) => (
+                                    <option
+                                       key={code}
+                                       value={mid}
+                                    >
+                                       {currency + " - " + code}
+                                    </option>
+                                 ))};
 
-                              </Label>
-                           
+                              </Select>
+
+                           </Label>
+
                         </Fieldset>
 
                         <p><Button>Przelicz</Button></p>
