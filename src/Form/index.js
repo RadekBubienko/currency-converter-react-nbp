@@ -38,7 +38,10 @@ const Form = () => {
    const [mid, setMid] = useState();
    const [code, setCode] = useState("EUR");
    const onInputChange = ({ target }) => setAmount(target.value);
-   const onSelectChange = ({ target }) => (setMid(target.value)) && (setCode(target.key));
+   const onSelectChange = ({ target }) => {
+      setMid(target.value);
+      setCode(target.key);
+   };
 
    const onFormSubmit = (event) => {
       event.preventDefault();
@@ -52,7 +55,7 @@ const Form = () => {
             ? (
                <Loading>
                   <span>
-                     🕧 Chwilka...<br />🔨 Pobieramy kusy walut z Europejskiego Banku Centralnego.
+                     🕧 Chwilka...<br />🔨 Pobieramy kusy walut z Narodowego Banku Polskiego.
                   </span>
                </Loading>
             )
