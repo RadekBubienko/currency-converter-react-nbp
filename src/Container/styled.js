@@ -15,12 +15,12 @@ export const Container = styled.main`
     }
 
     @media (max-width: ${({ theme }) => theme.breakpoint.mobileMid}px) {
-        height: 585px;
+        height: 545px;
         margin: 0 10px;
     }
 
     @media (max-width: ${({ theme }) => theme.breakpoint.mobileMin}px) {
-        height: 620px;
+        height: 630px;
         margin: 0 10px;
     }
 `;

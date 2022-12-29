@@ -115,7 +115,7 @@ const Form = () => {
 
                         <p><Button>Przelicz</Button></p>
 
-                        <Info>Kursy walut pobierane są z Narodowego Banku Polskiego.<br />
+                        <Info>Kursy walut pochodzą z Narodowego Banku Polskiego.<br />
                            Z dnia <strong>{formattedDate}</strong> - tabela nr {ratesData.no}
                         </Info>
 

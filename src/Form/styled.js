@@ -4,7 +4,7 @@ export const StyledForm = styled.form``;
 
 export const Fieldset = styled.fieldset`
     border: 3px solid ${({ theme }) => theme.color.lightTeal};
-    padding: 20px;
+    padding: 12px;
     border-radius: 5px;
 `;
 
@@ -30,7 +30,7 @@ export const Input = styled.input`
     border: 2px solid ${({ theme }) => theme.color.lightTeal};
     padding: 10px;
     width: 100%;
-    max-width: 210px;
+    max-width: 250px;
     border-radius: 5px;
     margin: 0px 5px 20px 0px;
 
@@ -43,7 +43,7 @@ export const Select = styled.select`
     border: 2px solid ${({ theme }) => theme.color.lightTeal};
     padding: 10px;
     width: 100%;
-    max-width: 210px;
+    max-width: 250px;
     border-radius: 5px;
     margin: 0px 5px 20px 0px;
 
@@ -60,7 +60,7 @@ export const Button = styled.button`
     color: ${({ theme }) => theme.color.white};
     padding: 10px;
     border-radius: 5px;
-    margin: 15px auto;
+    margin: 24px auto 12px;
     display: block;
 
 
@@ -83,4 +83,8 @@ export const Failure = styled.p`
 
 export const Info = styled.p`
     font-size: 12px;
+
+    @media (max-width: ${({ theme }) => theme.breakpoint.mobileMid}px) {
+        font-size: 10px;
+    }
 `;
