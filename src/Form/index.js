@@ -18,35 +18,35 @@ import { useApiData } from "../useApiData";
 const Form = () => {
    const [result, setResult] = useState();
    const ratesData = useApiData();
+
    
-   const calculateResult = (currency, amount) => {
+
+   const calculateResult = (mid, amount) => {
+      const rates = ratesData.rates;
+      const rate = rates.find(rate => rate.mid === mid);
       
       setResult({
          sourceAmount: +amount,
-         targetAmount: amount / mid,
-         currency,
-         code,
-         mid,         
-      });
-      
+         targetAmount: amount / rate,
+         mid,
+         
+             
+      }); 
+        
    };
+  
 
    const currenciesDate = ratesData.date;
    const formattedDate = currenciesDate && `${currenciesDate.slice(8)}-${currenciesDate.slice(5, 7)}-${currenciesDate.slice(0, 4)}`;
 
    const [amount, setAmount] = useState("");
    const [mid, setMid] = useState("");
-   const [code, setCode] = useState("");
-   const [currency, setCurrency] = useState("");
    const onInputChange = ({ target }) => setAmount(target.value);
-   const onSelectChange = ({ target }) => 
-      setMid(target.value) && 
-      setCode(target.value) && 
-      setCurrency(target.value);
+   const onSelectChange = ({ target }) => setMid(target.value);
 
    const onFormSubmit = (event) => {
       event.preventDefault();
-      calculateResult(mid, amount, code, currency);
+      calculateResult(amount, mid);
    };
    return (
       <StyledForm
@@ -90,31 +90,31 @@ const Form = () => {
                               />
 
                            </Label>
-                           <>
+                           
                               <Label>
                                  <LabelText>
                                     Przeliczam na*:
                                  </LabelText>
 
                                  <Select
-                                    value={ratesData.rates.mid}
+                                    value={mid}
                                     type="select"
-                                    required
                                     onChange={onSelectChange}
+                                    required
                                  >
-                                    {ratesData.rates.map(({ currency, mid, code }) => (
+                                    {ratesData.rates.map(({ currency, mid, code } ) => (
                                        <option
                                           key={code}
                                           value={mid}
                                        >
-                                          {code + " - " + currency}
+                                          {currency}
                                        </option>
                                     ))};
 
                                  </Select>
 
                               </Label>
-                           </>
+                           
                         </Fieldset>
 
                         <p><Button>Przelicz</Button></p>
