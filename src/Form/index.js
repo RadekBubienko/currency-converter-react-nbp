@@ -19,33 +19,27 @@ const Form = () => {
    const [result, setResult] = useState();
    const ratesData = useApiData();
 
-   const calculateResult = (mid, amount, code) => {
-      //const rates = ratesData.rates;
-      //const rate = rates.find(rate => rate.mid === mid);
-      //const code = rates.code;
-
+   const calculateResult = (currency, amount) => {
+      const rates = ratesData.rates;
+      const mid = rates.find(({ code }) => code === currency).mid;
+      
       setResult({
          sourceAmount: +amount,
          targetAmount: amount / mid,
-         mid,
-         code,
+         currency,
       });
    };
    const currenciesDate = ratesData.date;
    const formattedDate = currenciesDate && `${currenciesDate.slice(8)}-${currenciesDate.slice(5, 7)}-${currenciesDate.slice(0, 4)}`;
 
    const [amount, setAmount] = useState("");
-   const [mid, setMid] = useState();
-   const [code, setCode] = useState("EUR");
+   const [currency, setCurrency] = useState("EUR");
    const onInputChange = ({ target }) => setAmount(target.value);
-   const onSelectChange = ({ target }) => {
-      setMid(target.value);
-      setCode(target.key);
-   };
+   const onSelectChange = ({ target }) => setCurrency(target.value);
 
    const onFormSubmit = (event) => {
       event.preventDefault();
-      calculateResult(mid, amount, code);
+      calculateResult(currency, amount);
    };
    return (
       <StyledForm
@@ -96,19 +90,19 @@ const Form = () => {
                               </LabelText>
 
                               <Select
-                                 value={mid}
+                                 value={currency}
                                  type="select"
                                  onChange={onSelectChange}
                                  required
                               >
-                                 {ratesData.rates.map(({ currency, code, mid }) => (
+                                 {ratesData.rates.map((currency => (
                                     <option
-                                       key={code}
-                                       value={mid}
+                                       key={currency.code}
+                                       value={currency.code}
                                     >
-                                       {currency + " - " + code}
+                                       {currency.currency + " - " + currency.code}
                                     </option>
-                                 ))};
+                                 )))};
 
                               </Select>
 
